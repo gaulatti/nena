@@ -1,9 +1,32 @@
+import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import { useState } from 'react';
 import './App.css';
 
+const items = [
+  {
+    label: 'Navigation One',
+    key: 'mail',
+    icon: <MailOutlined />,
+  },
+  {
+    label: 'Navigation Two',
+    key: 'app',
+    icon: <AppstoreOutlined />,
+    disabled: true,
+  }
+];
 function App() {
+  const [current, setCurrent] = useState('mail');
 
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    setCurrent(e.key);
+  };
   return (
     <>
+      <Menu onClick={onClick} selectedKeys={[current]} mode='horizontal' items={items} />;
       <iframe
         width='560'
         height='315'
