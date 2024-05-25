@@ -9,8 +9,8 @@ const config = {
   aws: {
     Auth: {
       Cognito: {
-        userPoolId: 'your-user-pool-id',
-        userPoolClientId: 'your-app-client-id',
+        userPoolId: 'us-east-1_txjkNx1Ft',
+        userPoolClientId: '4quc7eapin0hta2o3npl9si5f9',
       },
     },
   },
