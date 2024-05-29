@@ -20,7 +20,7 @@ const config: Config = {
             scopes: ['email', 'openid'],
             redirectSignIn: ['https://nena.gaulatti.com/', 'http://localhost:5173/'],
             redirectSignOut: ['https://nena.gaulatti.com/logout', 'http://localhost:5173/logout'],
-            responseType: 'token',
+            responseType: 'code',
           },
         },
       },
