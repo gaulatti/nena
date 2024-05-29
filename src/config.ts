@@ -18,7 +18,7 @@ const config: Config = {
           oauth: {
             domain: 'aitana.auth.us-east-1.amazoncognito.com',
             scopes: ['email', 'openid'],
-            redirectSignIn: ['https://nena.gaulatti.com/', 'http://localhost:5173/'],
+            redirectSignIn: ['https://nena.gaulatti.com', 'http://localhost:5173'],
             redirectSignOut: ['https://nena.gaulatti.com/logout', 'http://localhost:5173/logout'],
             responseType: 'code',
           },
