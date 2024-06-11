@@ -7,8 +7,8 @@ const Home = () => {
         <Flex justify='center'>
           <section>
             <Flex justify='space-between'>
-              <div>logo</div>
-              <div>logo</div>
+              <div>logo + menu</div>
+              <div>user menu</div>
             </Flex>
           </section>
         </Flex>
