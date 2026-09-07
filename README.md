@@ -44,9 +44,10 @@ suite or backend in this repository.
 The current AWS CodeBuild project watches pushes to `main`, runs `npm install`
 and `npm run build`, removes the current S3 objects, syncs `dist/`, and
 invalidates the CloudFront index. Two active GitHub webhooks currently point to
-CodeBuild even though only one project is declared. No retained build or hook
-delivery record is available, so a merge must be treated as a production
-deployment—not as a documentation-only operation.
+CodeBuild even though only one project is declared. Both hooks accepted this
+audit's feature-branch and pull-request events, while CodeBuild started no build
+because its filter excludes non-`main` refs. A merge must therefore be treated
+as a production deployment—not as a documentation-only operation.
 
 Before a release:
 

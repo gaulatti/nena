@@ -38,11 +38,11 @@ surface.
 | Surface | Method | Result |
 | --- | --- | --- |
 | Git source | Fresh clone plus GitHub repository/branch APIs | Public, unarchived repository; unprotected single branch `main` at `bcdafa16602e9aa7f28649f6dcb8d6bd02066a30`, last changed 2024-06-11. There were no prior pull requests, tags, or releases. |
-| GitHub delivery metadata | Actions, runs, deployments, environments, hook, deploy-key, secret-name, variable, artifact, cache, Pages, and ruleset APIs | No Actions workflows/runs, deployments, environments, deploy keys, Actions/Dependabot secrets, Actions variables, artifacts, caches, Pages site, or rulesets exist. Two active CodeBuild webhooks accept push, pull-request, and release events; both target AWS CodeBuild, report no retained deliveries, and have been unchanged since 2024-05-22. |
+| GitHub delivery metadata | Actions, runs, deployments, environments, hook, deploy-key, secret-name, variable, artifact, cache, Pages, and ruleset APIs | No Actions workflows/runs, deployments, environments, deploy keys, Actions/Dependabot secrets, Actions variables, artifacts, caches, Pages site, or rulesets exist. Two active CodeBuild webhooks accept push, pull-request, and release events; both target AWS CodeBuild and accepted the audit's feature-branch push and pull-request events with HTTP 200. Their configuration has been unchanged since 2024-05-22. |
 | GitHub security and packages | Dependabot, code-scanning, secret-scanning, repository source, and package-access checks | Automated security alert surfaces are disabled or have no analysis. `package.json` is private and no publishing configuration exists. The current token lacks `read:packages`, so account-wide GitHub Packages ownership is not authoritative. |
 | Public wiki | Repository metadata and managed-updater wiki bootstrap | GitHub reports wiki support enabled, but the derived `gaulatti/nena.wiki.git` remote does not exist or is inaccessible. This in-repository audit is therefore the documentation source. |
 | CloudFormation | Active-stack searches across all 17 enabled regions plus exact stack/resource inventory in the configured AWS account | The only matching live stack is `Nena` in `us-east-1`, `UPDATE_COMPLETE`, last updated 2024-05-29. Its live logical resources match Eleni's Nena constructs. Drift has never been checked and no drift operation was started. |
-| CodeBuild | Project, source, webhook, artifact, and retained-build APIs | `NenaBuildProject` is configured against `https://github.com/gaulatti/nena.git`, filters pushes to `main`, writes to the Nena S3 bucket, and has no retained build records. The account-level GitHub PAT credential may also support the remaining `temp-zoe` project. |
+| CodeBuild | Project, source, webhook, artifact, and retained-build APIs | `NenaBuildProject` is configured against `https://github.com/gaulatti/nena.git`, filters pushes to `main`, writes to the Nena S3 bucket, and has no retained build records. The accepted non-`main` audit events started no build, confirming the branch filter while leaving the merge boundary untested. The account-level GitHub PAT credential may also support the remaining `temp-zoe` project. |
 | S3 and CloudFront | Stack resource inventory, bucket controls/object versions, distribution configuration, and content hashes | The versioned private bucket has three current objects, 36 retained versions, and 33 delete markers; the current artifact was written 2024-06-11. Its enabled/deployed CloudFront distribution uses the bucket as its OAI-protected origin and carries the `nena.gaulatti.com` alias. |
 | Artifact provenance | Clean `npm ci`/build followed by SHA-256 comparisons | The clean build, all three current S3 objects, and all three public URL responses use identical filenames and identical bytes. This proves the audited source is the deployed application rather than merely a similarly named repository. |
 | DNS and HTTP | Route 53, DNS, CloudFront, and HTTPS checks | Route 53 aliases `nena.gaulatti.com` to the deployed distribution. The custom domain and default distribution hostname both returned HTTP 200. `nena.fifthbell.com` does not resolve and is not an alternate owner. |
@@ -74,8 +74,9 @@ not changed.
 
 ## Residual risks and unverified boundaries
 
-- The two active GitHub hooks have no retained delivery evidence, and CodeBuild
-  has no retained builds. One hook appears redundant, but neither was mutated.
+- Both active GitHub hooks accepted the audit's feature-branch and pull-request
+  events, while CodeBuild started no build. One hook appears redundant, but
+  neither was mutated and the production `main` trigger remains untested.
 - The next `main` push can replace the live site. The disposition PR must not be
   merged until #2 supplies explicit deployment authorization, duplicate-hook
   resolution, monitoring, and recovery evidence.
